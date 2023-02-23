@@ -1,0 +1,61 @@
+service: serverless-template
+
+functions: ${file(serverless/functions.yml)}
+resources: ${file(serverless/resources.yml)}
+
+useDotenv: true
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-plugin-split-stacks
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  versionFunctions: false
+  deploymentMethod: direct
+  stage: ${opt:stage, env:STAGE}
+  stackName: ${self:service}-${self:provider.stage}
+  stage: ${self:custom.stage}
+  region: ${self:custom.region}
+  memorySize: 1024
+  timeout: 25
+  logRetentionInDays: 14
+  deploymentBucket:
+      name: ${self:custom.deploymentBucketName}
+  httpApi:
+    payload: '2.0'
+    cors: true
+  environment: 
+    STAGE: ${env:STAGE}
+    REGION: ${env:REGION}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource:
+            - '*'
+
+custom:
+  stage: ${sls:stage}
+  region: ${env:REGION}
+  deploymentBucketName: ${env:DEPLOYMENT_BUCKET_NAME}
+  # serverless-esbuild
+  esbuild:
+    packager: pnpm
+    installExtraArgs:
+      - --no-frozen-lockfile
+    keepOutputDirectory: true
+    nativeZip: true
+    sourcemap: true
+    minify: false # test it
+  # serverless-split-stack
+  splitStacks:
+    perFunction: true
+    perType: false
+    perGroupFunction: false
