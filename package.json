@@ -10,13 +10,21 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^18.14.1",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
     "esbuild": "^0.17.10",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4",
     "serverless": "^3.27.0",
     "serverless-esbuild": "^1.39.0",
     "serverless-offline": "^12.0.4",
     "serverless-plugin-split-stacks": "^1.12.0",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^3.14.2",
     "typescript": "^4.9.5"
   }
 }

@@ -1,0 +1,23 @@
+singleQuote: true
+trailingComma: "all"
+tabWidth: 4
+useTabs: true
+endOfLine": "lf"
+# printWidth: 75
+bracketSpacing: true
+importOrderSeparation: true
+semi: true
+arrowParens: 'always'
+importOrder: ['<THIRD_PARTY_MODULES>', '^@\\/', '^\\.\\.?\\/']
+overrides:
+  - files:
+      - '**/*.yml'
+      - '**/*.yaml'
+    options:
+      useTabs: false
+      tabWidth: 2
+  - files:
+      - '**/*.md'
+    options:
+      useTabs: true
+      tabWidth: 2

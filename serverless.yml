@@ -17,7 +17,6 @@ provider:
   runtime: nodejs16.x
   versionFunctions: false
   deploymentMethod: direct
-  stage: ${opt:stage, env:STAGE}
   stackName: ${self:service}-${self:provider.stage}
   stage: ${self:custom.stage}
   region: ${self:custom.region}
