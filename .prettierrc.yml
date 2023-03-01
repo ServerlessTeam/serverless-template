@@ -3,7 +3,6 @@ trailingComma: "all"
 tabWidth: 4
 useTabs: true
 endOfLine": "lf"
-# printWidth: 75
 bracketSpacing: true
 importOrderSeparation: true
 semi: true
