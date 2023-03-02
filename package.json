@@ -9,11 +9,6 @@
     "lint:fix": "eslint --debug src/ --fix",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "echo This is a pen"
-    }
-  },
   "lint-staged": {
     "*.ts": [
       "npm run lint:fix",
