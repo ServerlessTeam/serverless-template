@@ -6,7 +6,7 @@
   "scripts": {
     "deploy:dev": "serverless deploy --stage dev",
     "lint": "eslint --debug src/",
-    "lint:": "eslint --debug src/ --fix",
+    "lint:fix": "eslint --debug src/ --fix",
     "prepare": "husky install"
   },
   "husky": {
