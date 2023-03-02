@@ -16,6 +16,7 @@ specifiers:
   serverless-plugin-split-stacks: ^1.12.0
   ts-node: ^10.9.1
   tsconfig-paths: ^3.14.2
+  tslib: ^2.5.0
   typescript: ^4.9.5
 
 devDependencies:
@@ -34,6 +35,7 @@ devDependencies:
   serverless-plugin-split-stacks: 1.12.0_serverless@3.27.0
   ts-node: 10.9.1_uayvamxqnl5yeiojjysxwopmsy
   tsconfig-paths: 3.14.2
+  tslib: 2.5.0
   typescript: 4.9.5
 
 packages:

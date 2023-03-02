@@ -4,10 +4,15 @@ tabWidth: 4
 useTabs: true
 endOfLine": "lf"
 bracketSpacing: true
-importOrderSeparation: true
 semi: true
 arrowParens: 'always'
-importOrder: ['<THIRD_PARTY_MODULES>', '^@\\/', '^\\.\\.?\\/']
+plugins: ["@trivago/prettier-plugin-sort-imports"]
+importOrderSeparation: true
+importOrder: [
+  "<THIRD_PARTY_MODULES>",
+  "^@/(.*)$",
+  "^[./]",
+]
 overrides:
   - files:
       - '**/*.yml'
