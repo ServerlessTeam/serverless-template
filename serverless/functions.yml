@@ -1,4 +1,4 @@
-helloWorld:
+HelloWorld:
     handler: src/lambdas/HelloWorld/index.handler
     events:
         - httpApi:
