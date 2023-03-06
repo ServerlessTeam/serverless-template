@@ -1,21 +1,28 @@
-import { Handler, Context, ProxyCallback, ProxyResult } from 'aws-lambda';
+import middy from '@middy/core';
+import { z } from 'zod';
+
+import apiGateway from '@/middlewares/apiGateway';
+import { APIGatewayHandler } from '@/types/aws';
 
 import { getExampleUserById } from './utils';
+import { eventSchema, responseSchema } from './validation';
 
-const handler: Handler = async (
-	event: any,
-	context: Context,
-	callback: ProxyCallback,
-) => {
-	const user = await getExampleUserById(1);
-	const response: ProxyResult = {
-		statusCode: 200,
-		body: JSON.stringify({
-			message: `Hello, ${user.first_name} ${user.last_name}`.trim(),
-		}),
-	};
+type Event = z.infer<typeof eventSchema>;
 
-	callback(undefined, response);
+type Response = z.infer<typeof responseSchema>;
+
+const rawHandler: APIGatewayHandler<Event, Response> = async (event) => {
+	const { userId } = event.queryStringParameters;
+	const user = await getExampleUserById(userId);
+
+	return user;
 };
 
-export { handler };
+export const handler = middy(rawHandler).use(
+	apiGateway({
+		zodValidator: {
+			eventSchema,
+			responseSchema,
+		},
+	}),
+);
