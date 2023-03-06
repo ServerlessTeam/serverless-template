@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /** Returns false if the given value is an undefined or null value */
 export const isValid = <T>(value: T | undefined | null): value is T =>
 	value !== undefined && value !== null;

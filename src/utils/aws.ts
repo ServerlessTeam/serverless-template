@@ -1,5 +1,3 @@
-import { APIGatewayEvent } from '@/types/aws';
-
 export interface ErrorResponse {
 	error: {
 		type: string;
@@ -58,19 +56,3 @@ export class APIGatewayResponseExtended<TBody> {
 export type APIGatewayResponse<T> =
 	| T
 	| APIGatewayResponseExtended<T | ErrorResponse>;
-
-export type ExtractResponsePayload<T> = T extends APIGatewayResponse<
-	infer TPayload
->
-	? TPayload
-	: never;
-
-export function isAPIGatewayEvent<T>(
-	event: unknown,
-): event is APIGatewayEvent<T> {
-	return (
-		typeof event === 'object' &&
-		!!event &&
-		/* v1 */ ('resource' in event || /* v2 */ 'rawPath' in event)
-	);
-}
