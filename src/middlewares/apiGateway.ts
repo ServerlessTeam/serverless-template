@@ -4,37 +4,28 @@ import httpEventNormalizer from '@middy/http-event-normalizer';
 import httpHeaderNormalizer from '@middy/http-header-normalizer';
 import jsonBodyParser from '@middy/http-json-body-parser';
 
+import { Options as ZodValidatorOptions } from '@/middlewares/zodValidator';
 import { APIGatewayEvent } from '@/types/aws';
 
-import adminAuthorizer, { AdminAuthorizerOptions } from './adminAuthorizer';
 import apiGatewayResponse from './apiGatewayResponse';
-import customerAuthorizer from './customerAuthorizer';
-import eventLogger from './eventLogger';
 import requestBodyNormalizer from './requestBodyNormalizer';
-import sentry from './sentry';
 import stringifyResponseBody from './stringifyResponseBody';
-import zodValidator, { Options as ZodValidatorOptions } from './zodValidator';
+import validateUserInfo from './validateUserInfo';
+import zodValidator from './zodValidator';
 
-interface Options {
-	eventLogger?:
-		| false
-		| {
-				originalEvent: boolean;
-				modifiedEvent: boolean;
-		  };
-	requestBodyNormalizer?: boolean;
-	doNotWaitForEmptyEventLoop?: boolean;
-	httpHeaderNormalizer?: boolean;
-	httpEventNormalizer?: boolean;
-	jsonBodyParser?: boolean;
-	zodValidator?: ZodValidatorOptions;
-	apiGatewayResponse?: boolean;
-	adminAuthorizer?: AdminAuthorizerOptions;
-	customerAuthorizer?: boolean;
-}
+type Options = {
+	requestBodyNormalizer: boolean;
+	doNotWaitForEmptyEventLoop: boolean;
+	httpHeaderNormalizer: boolean;
+	jsonBodyParser: boolean;
+	zodValidator: ZodValidatorOptions;
+	httpEventNormalizer: boolean;
+	apiGatewayResponse: boolean;
+	validateUserInfo: boolean;
+};
 
 export default function apiGateway(
-	options: Options = {},
+	options: Partial<Options> = {},
 ): MiddlewareObj<
 	APIGatewayEvent<
 		unknown,
@@ -44,70 +35,43 @@ export default function apiGateway(
 		Record<string, unknown[]>
 	>
 >[] {
-	const middlewares: MiddlewareObj<any, any, any, any>[] = [];
-
-	// Do not add any handlers before this one
-	// It flushes the Sentry events so it needs to be invoked last
-	// ("after" and "onError" are invoked in reverse)
-	middlewares.push(sentry());
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const middlewareArray: MiddlewareObj<any, any, any, any>[] = [];
 
 	if (options.apiGatewayResponse !== false) {
-		middlewares.push(stringifyResponseBody());
-	}
-
-	if (options.apiGatewayResponse !== false) {
-		middlewares.push(apiGatewayResponse());
-	}
-
-	if (options.eventLogger !== false && options.eventLogger?.originalEvent === true) {
-		middlewares.push(
-			eventLogger({
-				logPrefix: 'Original event:',
-			}),
-		);
+		middlewareArray.push(stringifyResponseBody());
+		middlewareArray.push(apiGatewayResponse());
 	}
 
 	if (options.requestBodyNormalizer !== false) {
-		middlewares.push(requestBodyNormalizer());
+		middlewareArray.push(requestBodyNormalizer());
 	}
 
 	if (options.doNotWaitForEmptyEventLoop !== false) {
-		middlewares.push(doNotWaitForEmptyEventLoop());
+		middlewareArray.push(doNotWaitForEmptyEventLoop());
 	}
 
 	if (options.httpHeaderNormalizer !== false) {
-		middlewares.push(httpHeaderNormalizer());
+		middlewareArray.push(httpHeaderNormalizer());
 	}
 
 	if (options.httpEventNormalizer !== false) {
-		middlewares.push(httpEventNormalizer());
+		middlewareArray.push(httpEventNormalizer());
 	}
 
 	if (options.jsonBodyParser !== false) {
-		middlewares.push(jsonBodyParser());
+		middlewareArray.push(jsonBodyParser());
+	}
+
+	if (options.validateUserInfo) {
+		middlewareArray.push(validateUserInfo());
 	}
 
 	if (options.zodValidator) {
-		middlewares.push(zodValidator(options.zodValidator));
+		middlewareArray.push(zodValidator(options.zodValidator));
 	}
 
-	if (options.adminAuthorizer) {
-		middlewares.push(adminAuthorizer(options.adminAuthorizer));
-	}
-
-	if (options.customerAuthorizer) {
-		middlewares.push(customerAuthorizer());
-	}
-
-	if (options.eventLogger !== false && options.eventLogger?.modifiedEvent !== false) {
-		middlewares.push(
-			eventLogger({
-				logPrefix: 'Modified Event:',
-			}),
-		);
-	}
-
-	return middlewares as MiddlewareObj<
+	return middlewareArray as MiddlewareObj<
 		APIGatewayEvent<
 			unknown,
 			Record<string, unknown>,

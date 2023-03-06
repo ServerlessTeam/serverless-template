@@ -1,13 +1,11 @@
 import Boom from '@hapi/boom';
 import { MiddlewareObj } from '@middy/core';
 import { HttpError } from '@middy/util';
-import { AWSLambda } from '@sentry/serverless';
 
-import { APIGatewayResponseExtended, ErrorResponse } from '../utils/aws';
+import { APIGatewayResponseExtended, ErrorResponse } from '@/utils/aws';
 
-function isHttpError(error: Error): error is HttpError {
-	return 'status' in error && 'statusCode' in error;
-}
+const isHttpError = (error: Error): error is HttpError =>
+	'status' in error && 'statusCode' in error;
 
 export default function apiGatewayResponse(): MiddlewareObj {
 	return {
@@ -35,16 +33,15 @@ export default function apiGatewayResponse(): MiddlewareObj {
 				error.name ??= 'InternalError';
 			}
 
-			if (error.isServer) {
-				AWSLambda.captureException(req.error);
-			}
-
 			req.response = new APIGatewayResponseExtended<ErrorResponse>({
 				statusCode: error.output.statusCode,
 				body: {
 					error: {
 						type: error.output.payload.error,
-						message: error.output.statusCode === 500 ? undefined : error.message,
+						message:
+							error.output.statusCode === 500
+								? undefined
+								: error.message,
 						payload: error.data ?? undefined,
 					},
 				},

@@ -18,7 +18,12 @@ export default function zodValidator({
 		before: async (req) => {
 			let eventSchema;
 			// Allow unknown fields if event is validated as object
-			if (isSchema<z.SomeZodObject>(_eventSchema, z.ZodFirstPartyTypeKind.ZodObject)) {
+			if (
+				isSchema<z.SomeZodObject>(
+					_eventSchema,
+					z.ZodFirstPartyTypeKind.ZodObject,
+				)
+			) {
 				eventSchema = _eventSchema.passthrough();
 			} else {
 				eventSchema = _eventSchema;
@@ -65,7 +70,9 @@ function validate(schema: z.ZodTypeAny, event: unknown) {
 	}
 
 	const validationError = Boom.badRequest(
-		parsed.error.issues.map(({ path, message }) => `${path.join('.')}: ${message}`).join('; '),
+		parsed.error.issues
+			.map(({ path, message }) => `${path.join('.')}: ${message}`)
+			.join('; '),
 		parsed.error.issues,
 	);
 	return {

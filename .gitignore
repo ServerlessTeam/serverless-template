@@ -7,3 +7,8 @@ jspm_packages
 
 .env.*
 .env
+
+.esbuild
+
+/.idea
+/.vscode
