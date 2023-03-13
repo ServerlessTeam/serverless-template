@@ -7,6 +7,7 @@ import { APIGatewayHandler } from '@/types/aws';
 import { getExampleUserById } from './utils';
 import { eventSchema, responseSchema } from './validation';
 
+// Getting typescript type from zod schema.
 type Event = z.infer<typeof eventSchema>;
 
 type Response = z.infer<typeof responseSchema>;

@@ -1,1 +1,8 @@
+#Provide your resources here.
+#For example:
+
 Resources:
+  # ExampleBucket:
+  #     Type: AWS::S3::Bucket
+  #     Properties:
+  #         BucketName: ${self:custom.stage}-example-buck

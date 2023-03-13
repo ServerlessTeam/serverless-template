@@ -2,6 +2,7 @@ import { MiddlewareObj } from '@middy/core';
 
 import hasProperty from '@/utils/hasProperty';
 
+// Stringifies response body.
 const handler: MiddlewareObj['after'] = (req) => {
 	if (
 		typeof req.response === 'object' &&

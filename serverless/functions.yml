@@ -1,6 +1,9 @@
 helloWorld:
     handler: src/lambdas/HelloWorld/index.handler
     events:
-        - httpApi:
+        # HTTP API used here. To switch to REST API replace 'httpApi' with 'http'.
+        # Difference between HTTP API and REST API describer here: https://www.serverless.com/framework/docs/providers/aws/events/http-api .
+
+        - httpApi: # - http:
             method: GET
             path: /hello-world

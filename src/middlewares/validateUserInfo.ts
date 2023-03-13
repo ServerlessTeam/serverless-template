@@ -4,6 +4,7 @@ import { MiddlewareObj } from '@middy/core';
 import { APIGatewayEvent } from '@/types/aws';
 import { isValid, isValidString } from '@/utils';
 
+// Validates that current user has all required data to trigger this lambda.
 export default function validateUserInfo(): MiddlewareObj<
 	APIGatewayEvent<unknown>
 > {

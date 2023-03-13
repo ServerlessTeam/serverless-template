@@ -10,6 +10,7 @@ export interface Options {
 	responseSchema?: z.ZodTypeAny;
 }
 
+// Zod validation.
 export default function zodValidator({
 	eventSchema: _eventSchema,
 	responseSchema,
