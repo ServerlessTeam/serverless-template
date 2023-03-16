@@ -2,6 +2,8 @@ import Boom from '@hapi/boom';
 import axios from 'axios';
 import { z } from 'zod';
 
+import { getEnvVar } from '@/utils';
+
 import { responseSchema } from './validation';
 
 // An example axios request to an example api.
@@ -9,7 +11,7 @@ export const getExampleUserById = async (
 	id: number,
 ): Promise<z.infer<typeof responseSchema>> => {
 	const axiosInstance = axios.create();
-	axiosInstance.defaults.baseURL = 'https://reqres.in';
+	axiosInstance.defaults.baseURL = getEnvVar('USER_API_BASE_URL');
 
 	try {
 		const {
