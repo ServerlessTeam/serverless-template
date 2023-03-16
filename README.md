@@ -3,6 +3,7 @@
 A Serverless template using Typescript and Esbuild.
 
 Based on `aws-nodejs` template from the [Serverless framework](https://www.serverless.com/).
+
 ## Modifications
 
 - [Typescript](https://www.typescriptlang.org/).
@@ -12,41 +13,52 @@ Based on `aws-nodejs` template from the [Serverless framework](https://www.serve
 - Git hooks with [Husky](https://typicode.github.io/husky/) and [Lint-staged](https://www.npmjs.com/package/lint-staged), running [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) on every commit.
 - [Middy](https://www.npmjs.com/package/@middy/core), middleware engine for Node.Js lambda.
 - [Zod](https://www.npmjs.com/package/zod) validation.
+
 ---
 
 ## Get started with `serverless-template`
+
 ### Install template
+
 Using serverless
+
 ```bash
 serverless https://github.com/Maslowind/serverless-template --name serverless-template
 ```
 
 Using git clone
+
 ```bash
 git clone https://github.com/Maslowind/serverless-template serverless-template
 cd serverless-template
 ```
 
 ### Environment
-Create `.env.[STAGE]` file, using `.env.example`.
+
+Create `.env.<STAGE>` file, referencing `.env.example`.
+
 ### Install dependencies
+
 ```bash
 pnpm install
 ```
+
 ### Deploy
+
 ```bash
-pnpm deploy:[STAGE]
+pnpm deploy:<STAGE>
 ```
 
 ### Deploy single function
+
 ```bash
-pnpm deploy:function:[STAGE]
+pnpm deploy:function:<STAGE> <functionName>
 ```
 
-
 ### Running locally
+
 This template comes with `serverless-offline`.
 
 ```bash
-pnpm offline:[STAGE]
+pnpm offline:<STAGE>
 ```
