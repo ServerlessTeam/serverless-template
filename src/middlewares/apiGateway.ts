@@ -24,6 +24,7 @@ type Options = {
 	validateUserInfo: boolean;
 };
 
+// API Gateway middleware. Transforms and validates event and response.
 export default function apiGateway(
 	options: Partial<Options> = {},
 ): MiddlewareObj<

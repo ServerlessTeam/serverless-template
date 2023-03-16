@@ -7,6 +7,7 @@ import { APIGatewayResponseExtended, ErrorResponse } from '@/utils/aws';
 const isHttpError = (error: Error): error is HttpError =>
 	'status' in error && 'statusCode' in error;
 
+// Transforms response to http standards.
 export default function apiGatewayResponse(): MiddlewareObj {
 	return {
 		after: (req) => {
