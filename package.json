@@ -1,0 +1,56 @@
+{
+  "name": "serverless-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:function:dev": "serverless deploy function --stage dev -f",
+    "offline:dev": "serverless offline --stage dev",
+    "lint": "eslint --debug src/",
+    "lint:fix": "eslint --debug src/ --fix",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint:fix"
+    ]
+  },
+  "keywords": [],
+  "author": "maslowind",
+  "license": "ISC",
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/aws-lambda": "^8.10.111",
+    "@types/node": "^18.14.1",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "esbuild": "^0.17.10",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
+    "serverless": "^3.27.0",
+    "serverless-esbuild": "^1.39.0",
+    "serverless-offline": "^12.0.4",
+    "serverless-plugin-split-stacks": "^1.12.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^3.14.2",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@middy/core": "^4.2.6",
+    "@middy/do-not-wait-for-empty-event-loop": "^4.2.6",
+    "@middy/http-event-normalizer": "^4.2.6",
+    "@middy/http-header-normalizer": "^4.2.6",
+    "@middy/http-json-body-parser": "^4.2.6",
+    "@middy/util": "^4.2.6",
+    "aws-lambda": "^1.0.7",
+    "axios": "^1.3.4",
+    "zod": "^3.20.6"
+  }
+}
