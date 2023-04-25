@@ -23,13 +23,13 @@ Based on `aws-nodejs` template from the [Serverless framework](https://www.serve
 Using serverless
 
 ```bash
-serverless https://github.com/Maslowind/serverless-template --name serverless-template
+serverless https://github.com/ServerlessTeam/serverless-template --name serverless-template
 ```
 
 Using git clone
 
 ```bash
-git clone https://github.com/Maslowind/serverless-template serverless-template
+git clone https://github.com/ServerlessTeam/serverless-template serverless-template
 cd serverless-template
 ```
 
