@@ -23,7 +23,9 @@ Based on `aws-nodejs` template from the [Serverless framework](https://www.serve
 Using serverless
 
 ```bash
-serverless https://github.com/ServerlessTeam/serverless-template --name serverless-template
+serverless create \
+  --template-url https://github.com/ServerlessTeam/serverless-template \
+  --path serverless-template
 ```
 
 Using git clone
