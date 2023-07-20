@@ -1,9 +1,8 @@
-import * as Boom from '@hapi/boom';
 import { MiddlewareObj } from '@middy/core';
 import { z } from 'zod';
 
 import { APIGatewayResponseExtended, isErrorResponse } from '@/utils/aws';
-import { isSchema } from '@/utils/zod';
+import { isSchema, zodValidate } from '@/utils/zod';
 
 export interface Options {
 	eventSchema: z.ZodFirstPartySchemaTypes;
@@ -29,7 +28,7 @@ export default function zodValidator({
 				eventSchema = _eventSchema;
 			}
 
-			const validationResult = validate(eventSchema, req.event);
+			const validationResult = zodValidate(eventSchema, req.event);
 			if (validationResult.type === 'success') {
 				req.event = validationResult.data;
 			} else {
@@ -50,7 +49,7 @@ export default function zodValidator({
 					response = req.response;
 				}
 
-				const validationResult = validate(responseSchema, response);
+				const validationResult = zodValidate(responseSchema, response);
 				if (validationResult.type === 'error') {
 					validationResult.error.name = 'ResponseValidationError';
 					throw validationResult.error;
@@ -58,25 +57,4 @@ export default function zodValidator({
 			}
 		},
 	};
-}
-
-function validate(schema: z.ZodTypeAny, event: unknown) {
-	const parsed = schema.safeParse(event);
-	if (parsed.success) {
-		return {
-			type: 'success',
-			data: parsed.data,
-		} as const;
-	}
-
-	const validationError = Boom.badRequest(
-		parsed.error.issues
-			.map(({ path, message }) => `${path.join('.')}: ${message}`)
-			.join('; '),
-		parsed.error.issues,
-	);
-	return {
-		type: 'error',
-		error: validationError,
-	} as const;
 }
